@@ -4,9 +4,9 @@ class Solution:
         while i<j:
             if n[i]+n[j] == k:
                 return([i+1,j+1])
-            if n[i]+n[j] > k:
+            elif n[i]+n[j] > k:
                 j-=1
-            if n[i]+n[j]<k:
+            elif n[i]+n[j]<k:
                 i += 1
         
             
