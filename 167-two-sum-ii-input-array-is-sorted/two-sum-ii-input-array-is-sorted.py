@@ -8,7 +8,6 @@ class Solution:
                 j-=1
             elif n[i]+n[j]<k:
                 i += 1
-        return None
         
             
             # if i+j<k:
