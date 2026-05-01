@@ -1,22 +1,12 @@
 class Solution:
-    def checkValid(self, m: List[List[int]]) -> bool:
-        # col = collections.defaultdict(set)
-        # row = collections.defaultdict(set)
+    def checkValid(self, matrix):
+        n = len(matrix)
+        target = set(range(1, n + 1))
 
-        # for r in range(n):
-        #     for c in range(n):
-        #         if m[r][c] in col[c] or 
-        l= len(m)
-        a = set(range(1,l+1))
-
-        for r in m:
-            if not set(r)== a:
+        for i in range(n):
+            if set(matrix[i]) != target:
+                return False
+            if set(matrix[j][i] for j in range(n)) != target:
                 return False
 
-        for c in range (l):
-            col = [m[r][c] for r in range(l)]
-            if set(col) != a:
-                return False
         return True
-
-
