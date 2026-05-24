@@ -1,23 +1,24 @@
 class Solution:
     def exist(self, b: List[List[str]], word: str) -> bool:
-        rows = len(b)
-        cols = len(b[0])
+        row = len(b)
+        col = len(b[0])
         path = set()
-        def dfs(r,c,i):
+        res = []
+
+        def dfs(i,r,c):
             if i == len(word):
                 return True
-            
-            if min(r,c) < 0 or r >= rows or c >= cols or b[r][c] != word[i] or (r,c) in path:
+            if min(r,c) < 0 or r>= row or c >= col or b[r][c] != word[i] or (r,c) in path:
                 return False
             path.add((r,c))
-            res = (dfs (r+1,c,i+1) or dfs (r,c+1,i+1) or dfs (r-1,c,i+1) or dfs (r,c-1,i+1))
-            path.remove((r,c))
 
+            res = (dfs(i+1,r,c+1)or dfs(i+1,r,c-1)or dfs(i+1,r+1,c)or dfs(i+1,r-1,c))
+            path.remove((r,c))
             return res
 
-        for r in range(rows):
-            for c in range(cols):
-                if dfs(r,c,0):
+        for r in range(row):
+            for c in range(col):
+                if dfs(0,r,c):
                     return True
         return False
 
