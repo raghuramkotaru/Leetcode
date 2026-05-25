@@ -1,62 +1,46 @@
 class TrieNode:
     def __init__(self):
-        self.children = [None] * 26
-        self.idx = -1
-        self.refs = 0
+        self.children = {}
+        self.isWord = False
 
-    def addWord(self, word, i):
+    def addWord(self, word):
         cur = self
-        cur.refs += 1
         for c in word:
-            index = ord(c) - ord('a')
-            if not cur.children[index]:
-                cur.children[index] = TrieNode()
-            cur = cur.children[index]
-            cur.refs += 1
-        cur.idx = i
+            if c not in cur.children:
+                cur.children[c] = TrieNode()
+            cur = cur.children[c]
+        cur.isWord = True
 
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         root = TrieNode()
-        for i in range(len(words)):
-            root.addWord(words[i], i)
+        for w in words:
+            root.addWord(w)
 
         ROWS, COLS = len(board), len(board[0])
-        res = []
+        res, visit = set(), set()
 
-        def getIndex(c):
-            index = ord(c) - ord('a')
-            return index
-
-        def dfs(r, c, node):
+        def dfs(r, c, node, word):
             if (r < 0 or c < 0 or r >= ROWS or
-                c >= COLS or board[r][c] == '*' or
-                not node.children[getIndex(board[r][c])]):
+                c >= COLS or (r, c) in visit or
+                board[r][c] not in node.children
+            ):
                 return
 
-            tmp = board[r][c]
-            board[r][c] = '*'
-            prev = node
-            node = node.children[getIndex(tmp)]
-            if node.idx != -1:
-                res.append(words[node.idx])
-                node.idx = -1
-                node.refs -= 1
-                if not node.refs:
-                    prev.children[getIndex(tmp)] = None
-                    node = None
-                    board[r][c] = tmp
-                    return
+            visit.add((r, c))
+            node = node.children[board[r][c]]
+            word += board[r][c]
+            if node.isWord:
+                res.add(word)
 
-            dfs(r + 1, c, node)
-            dfs(r - 1, c, node)
-            dfs(r, c + 1, node)
-            dfs(r, c - 1, node)
-
-            board[r][c] = tmp
+            dfs(r + 1, c, node, word)
+            dfs(r - 1, c, node, word)
+            dfs(r, c + 1, node, word)
+            dfs(r, c - 1, node, word)
+            visit.remove((r, c))
 
         for r in range(ROWS):
             for c in range(COLS):
-                dfs(r, c, root)
+                dfs(r, c, root, "")
 
-        return res
+        return list(res)
