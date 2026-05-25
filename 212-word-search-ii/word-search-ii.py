@@ -1,41 +1,62 @@
-class Node:
+class TrieNode:
     def __init__(self):
-        self.ch = {}
-        self.end = False
-    def add(self,word):
+        self.children = [None] * 26
+        self.idx = -1
+        self.refs = 0
+
+    def addWord(self, word, i):
         cur = self
-        for i in word:
-            if i not in cur.ch:
-                cur.ch[i] = Node()
-            cur = cur.ch[i]
-        cur.end = True
+        cur.refs += 1
+        for c in word:
+            index = ord(c) - ord('a')
+            if not cur.children[index]:
+                cur.children[index] = TrieNode()
+            cur = cur.children[index]
+            cur.refs += 1
+        cur.idx = i
 
 class Solution:
-    def findWords(self, b: List[List[str]], words: List[str]) -> List[str]:
-        root = Node()
-        for w in words:
-            root.add(w)
-        rows, cols = len(b), len(b[0])
-        res, path = set(), set()
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        root = TrieNode()
+        for i in range(len(words)):
+            root.addWord(words[i], i)
 
-        def dfs(r,c,node,word):
-            
-            if r<0 or c<0 or r == rows or c == cols or (r,c) in path or b[r][c] not in node.ch: 
-                return 
-            path.add((r,c))
-            node = node.ch[b[r][c]]
-            word += b[r][c]
-            if node.end == True:
-                res.add(word)
-            dfs(r+1,c,node,word)
-            dfs(r,c+1,node,word)
-            dfs(r-1,c,node,word)
-            dfs(r,c-1,node,word)
+        ROWS, COLS = len(board), len(board[0])
+        res = []
 
-            path.remove((r,c))
+        def getIndex(c):
+            index = ord(c) - ord('a')
+            return index
 
-        for r in range(rows):
-            for c in range(cols):
-                dfs(r,c,root,"")
+        def dfs(r, c, node):
+            if (r < 0 or c < 0 or r >= ROWS or
+                c >= COLS or board[r][c] == '*' or
+                not node.children[getIndex(board[r][c])]):
+                return
 
-        return list(res)
+            tmp = board[r][c]
+            board[r][c] = '*'
+            prev = node
+            node = node.children[getIndex(tmp)]
+            if node.idx != -1:
+                res.append(words[node.idx])
+                node.idx = -1
+                node.refs -= 1
+                if not node.refs:
+                    prev.children[getIndex(tmp)] = None
+                    node = None
+                    board[r][c] = tmp
+                    return
+
+            dfs(r + 1, c, node)
+            dfs(r - 1, c, node)
+            dfs(r, c + 1, node)
+            dfs(r, c - 1, node)
+
+            board[r][c] = tmp
+
+        for r in range(ROWS):
+            for c in range(COLS):
+                dfs(r, c, root)
+
+        return res
