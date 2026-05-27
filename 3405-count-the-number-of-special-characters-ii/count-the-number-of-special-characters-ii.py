@@ -2,7 +2,7 @@ class Solution:
     def numberOfSpecialChars(self, word: str) -> int:
         last_low = {}
         first_up = {}
-        st = "abcdefghijklmnopqrstuvwxyz"
+        st = "qwertyuiopasdfghjklzxcvbnm"
         for i, c in enumerate(word):
             if c.islower():
                 last_low[c] = i
