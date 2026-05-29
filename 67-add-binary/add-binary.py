@@ -1,3 +1,7 @@
 class Solution:
     def addBinary(self, a, b) -> str:
-        return "{0:b}".format(int(a, 2) + int(b, 2))
+        # 
+        x = int(a, 2)
+        y = int(b, 2)
+
+        return bin(x + y)[2:]
