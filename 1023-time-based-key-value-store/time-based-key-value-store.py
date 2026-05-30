@@ -21,8 +21,6 @@ class TimeMap:
                     l = m+1
                 else:
                     r = m-1
-        else:
-            return res
         return res
 
 
