@@ -4,8 +4,8 @@ class Solution:
         l = sum(m)//4
         if sum(m) %4 != 0:
             return False
-        # if max(m) > l:
-        #     return False
+        if max(m) > l:
+            return False
         side = [0] * 4
         def bk(i):
             if i == len(m):
