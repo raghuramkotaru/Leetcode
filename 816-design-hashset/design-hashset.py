@@ -1,20 +1,35 @@
+class Node:
+    def __init__(self,node):
+        self.node = node
+        self.next = None
+
 class MyHashSet:
 
     def __init__(self):
         
-        self.hs = []
+        self.hs = [Node(0) for _ in range(10**4)]
     def add(self, key: int) -> None:
-        if key not in self.hs:
-            self.hs.append(key)
+        cur = self.hs[key%10**4] 
+        while cur.next:
+            if cur.next.node == key:
+                return
+            cur= cur.next
+        cur.next = Node(key) 
     def remove(self, key: int) -> None:
-        if key in self.hs:
-            self.hs.remove(key)
+        cur = self.hs[key%10**4] 
+        while cur.next:
+            if cur.next.node == key:
+                cur.next = cur.next.next
+                break
+            cur = cur.next
 
     def contains(self, key: int) -> bool:
-        if key in self.hs:
-            return True
-        else:
-            return False
+        cur = self.hs[key%10**4] 
+        while cur.next:
+            if cur.next.node == key:
+                return True
+            cur = cur.next
+        return False
         
 
 
