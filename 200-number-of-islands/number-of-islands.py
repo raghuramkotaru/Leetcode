@@ -9,11 +9,11 @@ class Solution:
 
         def dfs(r,c):
             grid[r][c] = "0"
-            q = deque()
+            q = []
             q.append((r,c))
             a = [[-1,0],[1,0],[0,-1],[0,1]]
             while q:
-                ro,co = q.popleft()
+                ro,co = q.pop()
                 
                 for dr,dc in a:
                     r,c = dr+ro, dc+co
