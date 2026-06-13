@@ -5,10 +5,10 @@ class Solution:
             return 0
         rows, cols = len(grid), len(grid[0])
         count = 0
-        visit = set()
+        # visit = set()
 
         def dfs(r,c):
-            visit.add((r,c))
+            grid[r][c] = "0"
             q = deque()
             q.append((r,c))
             while q:
@@ -16,13 +16,14 @@ class Solution:
                 a = [[-1,0],[1,0],[0,-1],[0,1]]
                 for dr,dc in a:
                     r,c = dr+ro, dc+co
-                    if r in range (rows) and c in range (cols) and grid[r][c] == "1" and (r,c) not in visit:
+                    if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1" and (r,c):
                         q.append((r,c))
-                        visit.add((r,c))
+                        grid[r][c] = "0"
+                        # visit.add((r,c))
 
         for r in range(rows):
             for c in range(cols):
-                if grid[r][c] == "1" and (r,c) not in visit:
+                if grid[r][c] == "1" and (r,c):
                     
                     dfs(r,c)
                     count += 1
