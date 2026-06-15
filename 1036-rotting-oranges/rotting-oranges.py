@@ -16,7 +16,7 @@ class Solution:
             if 0<=r<rows and 0<= c<cols and grid[r][c] == 1 and (r,c) not in visit:
                 visit.add((r,c))
                 q.append((r,c))
-                grid[r][c] == 2
+                grid[r][c] = 2
                 fresh -= 1
             return
 
