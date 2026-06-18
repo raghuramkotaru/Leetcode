@@ -18,9 +18,8 @@ class Solution:
                     return False
             return True
         if dfs(0,-1):
-            for i in range(n):
-                if i not in visit:
-                    return False    
-            return True
+            if len(visit) == n:  
+                return True
+            
         return False
 
