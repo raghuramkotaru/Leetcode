@@ -9,20 +9,13 @@ class Solution:
         fast = slow = head
         prev = None
         
-        
-        if not head:
-            return None
-        if not head.next:
+        if not head or not head.next:
             return None
         while fast and fast.next:
             prev= slow
             fast = fast.next.next
             slow = slow.next
-            
-            
-        if prev.next.next:
-            prev.next = slow.next
-        else:
-            prev.next = None
+        prev.next = slow.next
+        
         return head
         
