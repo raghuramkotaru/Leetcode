@@ -8,7 +8,7 @@ class Solution:
             res = n
             
             while res!= par[res]:
-                res = par[par[res]]
+                par[res] = par[par[res]]
                 res = par[res]
             return res
 
