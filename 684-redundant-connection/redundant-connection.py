@@ -5,9 +5,15 @@ class Solution:
         rank = [1]*(n+1)
 
         def find(n):
-            if n!=par[n]:
-                par[n] = find(par[n])
-            return par[n]
+            res = n
+            
+            while res!= par[res]:
+                res = par[res]
+            return res
+
+            # if n!=par[n]:
+            #     par[n] = find(par[n])
+            # return par[n]
 
         def uni(f1,f2):
             p1,p2 = find(f1),find(f2)
