@@ -6,7 +6,7 @@ class Solution:
 
         def find(n):
             res = n
-            
+            res = par[par[res]]
             while res!= par[res]:
                 res = par[res]
             return res
