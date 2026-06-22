@@ -22,5 +22,6 @@ class Solution:
                         if i not in visited:
                             visited.add(i)
                             q.append(i)
+                    nei[pattern] = []
             count+= 1
         return 0
