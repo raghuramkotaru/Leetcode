@@ -1,10 +1,17 @@
 class Solution:
     def findNthDigit(self, n: int) -> int:
-        digit = base = 1 # starting from 1 digit
-        while n > 9*base*digit: # upper limit of d digits 
-            n -= 9*base*digit
-            digit += 1
-            base *= 10 
-        q, r = divmod(n-1, digit)
-        return int(str(base + q)[r])
+        digit =1
+        base = 1
+        while n> 9*digit*base:
+            n -= 9*digit*base
+            digit +=1
+            base*=10
+        num = (n-1)//digit
+        num = base+num
+        place = (n-1)%digit
+
+        ans = str(num)
+        return(int(ans[place]))
+
+
         
