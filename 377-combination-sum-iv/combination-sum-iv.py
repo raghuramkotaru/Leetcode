@@ -1,26 +1,30 @@
 class Solution:
     def combinationSum4(self, nums: List[int], target: int) -> int:
-        count = 0
-        memo = {}
-        def dfs(n):
-            nonlocal count
-            if n in memo:
-                return memo[n]
+        # count = 0
+        # memo = {}
+        # def dfs(n):
+        #     nonlocal count
+        #     if n in memo:
+        #         return memo[n]
+        #     if n == target:
+        #         return 1
+        #     if n > target:
+        #         return 0
+        #     ans = 0
+        #     for i in nums:     
+        #         ans += dfs(n+i)
+        #     memo[n] = ans
+        #     return ans
             
-            if n == target:
-                return 1
-            if n > target:
-                return 0
-            ans = 0
-            for i in nums:
-                
-                ans += dfs(n+i)
-            memo[n] = ans
-            return ans
-            
-        return dfs(0)
-            
-
+        # return dfs(0)
+        
+        dp = defaultdict(int)
+        dp[0] = 1
+        for total in range(1,target+1):
+            # dp[total] = 0
+            for num in nums:
+                dp[total] += dp.get(total-num, 0)
+        return dp[target]
 
 
 
