@@ -5,9 +5,9 @@ class Solution:
         for i in range(len(nums)):
             if nums[i]== 1:
                 count+=1
-            if nums[i]==0 or i+1 == len(nums):
+            if nums[i]==0:
                 ma = max(ma,count)
                 count = 0
-
+            ma = max(ma,count)
         return ma
 
