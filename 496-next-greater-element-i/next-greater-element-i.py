@@ -1,15 +1,16 @@
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        ans = []
-        n = len(nums2)
-        for i in nums1:
-            ind = nums2.index(i)
-            tri = 0 
-            for j in range(ind+1,n):
-                if nums2[j] > i:
-                    ans.append(nums2[j])
-                    tri =1
-                    break
-            if tri == 0:
-                ans.append(-1)
-        return ans
+        hm = {n:i for i,n in enumerate(nums1)}
+        res = [-1]*len(nums1)
+
+        stack = []
+        for i in nums2:
+
+            while stack and stack[-1]<i:
+                val = stack.pop()
+                ind = hm[val]
+                res[ind]= i
+            if i in hm:
+                stack.append(i)
+        return res
+        
