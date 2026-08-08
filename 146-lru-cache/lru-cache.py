@@ -1,48 +1,44 @@
 class Node:
-    def __init__(self, key, val):
-        self.key,self.val = key , val
+    def __init__(self,key,val):
+        self.key, self.val = key, val
         self.prev = self.next = None
-        
 class LRUCache:
 
     def __init__(self, capacity: int):
         self.cap = capacity
-        self.h = {}
-        self.left, self.right = Node(0,0), Node(0,0)
-        self.right.prev, self.left.next = self.left,self.right
-    def remove(self, node):
-        p, n = node.prev, node.next
-        p.next, n.prev = n, p
-    def add(self, node):
-        p , n = self.right.prev, self.right
-        p.next = n.prev = node
-        node.prev, node.next = p,n
+        self.cache = {}
+        self.left = self.right = Node(0,0)
+        self.left.next, self.right.prev = self.right, self.left
+    def remove(self,node):
+        pre, nxt = node.prev,node.next
+        pre.next, nxt.prev = nxt,pre
+
+
+    def add(self,node):
+        pre , nxt = self.right.prev, self.right
+        pre.next = nxt.prev = node
+        node.next, node.prev = nxt,pre
+
 
     def get(self, key: int) -> int:
-        if key in self.h:
-            self.remove(self.h[key])
-            self.add(self.h[key])
-            return self.h[key].val
-            
-        else:
-            return -1
-
+        if key in self.cache:
+            self.remove(self.cache[key])
+            self.add(self.cache[key])
+            return self.cache[key].val
+        return -1
+        
 
     def put(self, key: int, value: int) -> None:
-         
-        
-        if key in self.h:
-            self.remove(self.h[key])
-        self.h[key] = Node(key,value)
-        self.add(self.h[key])
-        if len(self.h) > self.cap:
+        if key in self.cache:
+            self.remove(self.cache[key])
+        self.cache[key] = Node(key,value)
+        self.add(self.cache[key])
+        if len(self.cache) > self.cap:
             lru = self.left.next
             self.remove(lru)
-            del self.h[lru.key]
+            del self.cache[lru.key]
 
-
-
-        
+            
 
 
 # Your LRUCache object will be instantiated and called as such:
