@@ -17,4 +17,6 @@ class Solution:
 
             return dp[(l,r)]
 
-        return dfs(0,len(piles)-1) > sum(piles)//2
+        total = sum(piles)
+        alice_score = dfs(0, len(piles) - 1)
+        return alice_score > total - alice_score
