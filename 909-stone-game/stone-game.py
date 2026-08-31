@@ -8,7 +8,7 @@ class Solution:
             if (l,r) in dp:
                 return dp[(l,r)]
 
-            even = True if (r-l)%2 else False
+            even = (r - l + 1) % 2 == 0
 
             left = piles[l] if even else 0 
             right = piles[r] if even else 0 
